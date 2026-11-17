@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <!-- PASO 1: permite que el navegador use el ancho real del celular. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Siguiente paso | ACME</title>
+  <!-- PASO 2: conectar este HTML con el archivo CSS compartido. -->
+  <link rel="stylesheet" href="css/estilos.css">
+  <!-- Este icono aparece en la pestaña del navegador. -->
+  <link rel="icon" type="image/svg+xml" href="iconos/favicon.svg">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<!-- PASO 3: este header permanece visible con position: sticky en CSS. -->
+<header class="cabecera">
+  <div class="contenedor barra">
+    <a class="marca" href="index.html"><img src="iconos/favicon.svg" alt="" width="42" height="42">ACME</a>
+    <!-- PASO 4: la lista principal se ordena horizontalmente con Flexbox. -->
+    <nav aria-label="Navegación principal">
+      <ul class="menu">
+        <li><a href="index.html#inicio">Inicio</a></li>
+        <li><a href="index.html#nosotros">Nosotros</a></li>
+        <li>
+          <!-- details abre el submenú con clic, Enter o toque; no necesita JS. -->
+          <details class="desplegable">
+            <summary>Resolver</summary>
+            <!-- Esta lista es el menú vertical desplegable. -->
+            <ul class="submenu">
+              <li><a href="index.html#servicios">Servicios</a></li>
+              <li><a href="index.html#orientador">Ver objetos</a></li>
+              <li><a href="index.html#contacto">Solicitar devolución</a></li>
+            </ul>
+          </details>
+        </li>
+        
+        
+        <li><a href="recursos.html">Video y guía</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="contenido" class="contenedor seccion"><section class="confirmacion" aria-labelledby="confirmado"><p class="etiqueta">Final de la demostración</p><h1 id="confirmado">El siguiente paso sería conversar.</h1><p>Así se vería el cierre de una solicitud de devolución. En un servicio real, el equipo revisaría los detalles y te explicaría cómo continuar.</p><p>Este es un mensaje fijo de prueba. No se ha guardado tu información, enviado un correo ni confirmado que un objeto te pertenece.</p><h2>¿Quieres repetir el recorrido?</h2><p>Vuelve al catálogo para probar otra categoría o regresa al formulario.</p><a class="boton" href="index.html#orientador">Ver otros objetos</a><a class="enlace" href="index.html#contacto">Volver al formulario</a></section></main>
+<!-- PASO FINAL: pie compartido por las páginas del sitio. -->
+<footer class="pie">
+  <div class="contenedor">
+    <p><strong>ACME</strong> · Objetos que vuelven a casa</p>
+    <p>Contacto de ejemplo: hola@ejemplo.org</p>
+    <nav class="redes" aria-label="Redes sociales de referencia">
+      <!-- Son páginas generales de las redes; reemplazar por cuentas del proyecto. -->
+      <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer"><img src="iconos/facebook.svg" alt="" width="24" height="24">Facebook</a>
+      <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"><img src="iconos/instagram.svg" alt="" width="24" height="24">Instagram</a>
+      <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer"><img src="iconos/youtube.svg" alt="" width="24" height="24">YouTube</a>
+    </nav>
+    <p>© 2026 ACME · Ejemplo educativo ficticio · <a href="FUENTES.txt">Créditos de recursos</a></p>
+  </div>
+</footer>
+</body>
+</html>

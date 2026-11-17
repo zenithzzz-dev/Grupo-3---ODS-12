@@ -1,0 +1,741 @@
+/* =========================================
+   1. VARIABLES GLOBALES Y RESET
+   ========================================= */
+
+:root {
+  /* Paleta 60-30-10 */
+  --dominante: #D3DEC9;
+  /* 60% - Verde claro (Fondo/Superficies) */
+  --secundario: #17573A;
+  /* 30% - Verde oscuro (Texto principal/Botones) */
+  --acento: #FFB020;
+  /* 10% - Ámbar/Amarillo (CTAs/Alertas) */
+
+  /* Colores neutros */
+  --fondo: #F4F7F4;
+  --blanco: #FFFFFF;
+  --texto: #1A2621;
+  --texto-claro: #5A6B63;
+  --borde: #E5ECE0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  background-color: var(--fondo);
+  color: var(--texto);
+  line-height: 1.5;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* =========================================
+   2. LAYOUT PRINCIPAL (DASHBOARD)
+   ========================================= */
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* =========================================
+   3. BARRA LATERAL (SIDEBAR)
+   ========================================= */
+.sidebar {
+  width: 260px;
+  background-color: var(--secundario);
+  color: var(--blanco);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100vh;
+  z-index: 100;
+}
+
+.sidebar-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.logo h2 {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 1.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.nav-item:hover,
+.nav-item.activo {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--acento);
+  border-left: 4px solid var(--acento);
+}
+
+.sidebar-footer {
+  padding: 1.5rem;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.perfil-usuario {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background-color: var(--acento);
+  color: var(--secundario);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.info strong {
+  display: block;
+  font-size: 14px;
+}
+
+.info span {
+  font-size: 12px;
+  color: var(--dominante);
+}
+
+/* =========================================
+   4. CONTENIDO PRINCIPAL Y TOPBAR
+   ========================================= */
+.main-content {
+  flex: 1;
+  margin-left: 260px;
+  /* Compensa el sidebar fijo */
+  padding: 2rem;
+  max-width: 1200px;
+}
+
+.topbar {
+  margin-bottom: 2rem;
+}
+
+.titulo-pagina {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--secundario);
+}
+
+.subtitulo {
+  color: var(--texto-claro);
+  font-size: 16px;
+  margin-top: 0.2rem;
+}
+
+/* =========================================
+   5. DASHBOARD GRID Y KPIs
+   ========================================= */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.kpi-card {
+  background-color: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+}
+
+.kpi-label {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--texto-claro);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.kpi-valor {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--secundario);
+  margin: 0.5rem 0;
+}
+
+.kpi-valor .unidad {
+  font-size: 16px;
+  color: var(--texto-claro);
+}
+
+.kpi-meta {
+  font-size: 13px;
+  color: #888;
+}
+
+/* =========================================
+   6. WIDGETS (Registro e Insignias)
+   ========================================= */
+.widget-card {
+  background-color: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+/* Ocupar columnas completas en el grid para widgets por defecto */
+.registro-widget,
+.insignias-widget,
+.escaneo-widget {
+  grid-column: span 3;
+}
+
+@media (min-width: 992px) {
+  .escaneo-widget {
+    grid-column: span 1;
+  }
+
+  .registro-widget {
+    grid-column: span 1;
+  }
+
+  .insignias-widget {
+    grid-column: span 1;
+  }
+}
+
+.widget-card h3 {
+  font-size: 18px;
+  color: var(--secundario);
+  margin-bottom: 0.5rem;
+}
+
+/* Formulario */
+.grupo-input {
+  margin-bottom: 1.5rem;
+}
+
+.grupo-input label {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--texto);
+}
+
+.grupo-input input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 2px solid var(--borde);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.grupo-input input:focus {
+  border-color: var(--secundario);
+}
+
+.boton-primario {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: var(--secundario);
+  color: var(--blanco);
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.boton-primario:hover {
+  background-color: #0f3a26;
+}
+
+/* Insignias */
+.lista-insignias {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.insignia-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--fondo);
+  padding: 1rem;
+  border-radius: 8px;
+  flex: 1;
+  border: 1px solid var(--borde);
+}
+
+.icono-insignia {
+  font-size: 24px;
+  min-width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dominante);
+  border-radius: 50%;
+}
+
+.icono-insignia.gris {
+  filter: grayscale(100%);
+  opacity: 0.5;
+}
+
+.info-insignia h4 {
+  font-size: 14px;
+  color: var(--secundario);
+}
+
+.info-insignia span {
+  font-size: 12px;
+  color: var(--texto-claro);
+}
+
+.contenedor-insignias-logradas {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+/* =========================================
+   7. PUNTOS DE ACOPIO Y FILTROS SPI
+   ========================================= */
+.encabezado-puntos {
+  margin-bottom: 1.5rem;
+}
+
+.filtros-spi {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.chip-spi {
+  min-height: 40px;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--borde);
+  background-color: var(--blanco);
+  color: var(--texto);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chip-spi:hover {
+  background-color: var(--dominante);
+  border-color: var(--secundario);
+}
+
+.chip-spi.activo {
+  background-color: var(--secundario);
+  color: var(--blanco);
+  border-color: var(--secundario);
+}
+
+/* Layout dos columnas: Lista + Mapa */
+.layout-acopio {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.lista-puntos {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 0.4rem;
+}
+
+/* Custom Scrollbar para la lista */
+.lista-puntos::-webkit-scrollbar {
+  width: 6px;
+}
+
+.lista-puntos::-webkit-scrollbar-thumb {
+  background-color: var(--dominante);
+  border-radius: 4px;
+}
+
+.tarjeta-punto {
+  background: var(--blanco);
+  border: 2px solid var(--borde);
+  border-radius: 12px;
+  padding: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tarjeta-punto:hover {
+  border-color: var(--secundario);
+  transform: translateY(-2px);
+}
+
+.tarjeta-punto.seleccionada {
+  border-color: var(--secundario);
+  background-color: #F8FAF8;
+}
+
+.tarjeta-punto h3 {
+  font-size: 16px;
+  margin-bottom: 0.4rem;
+}
+
+.tarjeta-punto p {
+  font-size: 13px;
+  color: #4A5568;
+  margin-bottom: 0.4rem;
+}
+
+.etiquetas-recibe {
+  display: flex;
+  gap: 0.3rem;
+  margin-top: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.tag-spi {
+  font-size: 11px;
+  font-weight: 800;
+  background-color: var(--dominante);
+  color: var(--secundario);
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+}
+
+.btn-como-llegar {
+  width: 100%;
+  min-height: 42px;
+  background-color: var(--acento);
+  color: var(--texto);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-como-llegar:hover {
+  opacity: 0.9;
+}
+
+/* =========================================
+   8. MAPA REAL (LEAFLET.JS)
+   ========================================= */
+.mapa-contenedor {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+}
+
+#mapa-real {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+}
+
+/* Marcador personalizado de Leaflet */
+.marcador-custom-verde {
+  background: transparent;
+  border: none;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.leaflet-popup-content {
+  margin: 13px 19px;
+  line-height: 1.4;
+}
+
+/* =========================================
+   9. ESCÁNER SPI (HU-001)
+   ========================================= */
+.area-camara {
+  border: 2px dashed var(--secundario);
+  padding: 40px 20px;
+  text-align: center;
+  border-radius: 8px;
+  background-color: var(--fondo);
+  margin-bottom: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-ambar {
+  background-color: var(--acento);
+  color: var(--texto);
+}
+
+.btn-ambar:hover {
+  background-color: #E59D17;
+}
+
+.resultado-escaneo {
+  margin-top: 1rem;
+  padding: 1.2rem;
+  border: 1px solid var(--secundario);
+  background-color: var(--dominante);
+  border-radius: 8px;
+}
+
+.resultado-escaneo h4 {
+  color: var(--secundario);
+  margin-bottom: 0.5rem;
+  font-size: 14px;
+}
+
+#texto-tipo-plastico {
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--texto);
+  margin-bottom: 0.2rem;
+}
+
+#texto-contenedor {
+  font-size: 14px;
+  color: var(--texto-claro);
+}
+
+/* =========================================
+   10. RESPONSIVE DESIGN (MÓVILES Y TABLETS)
+   ========================================= */
+@media (max-width: 992px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .kpi-card:last-child {
+    grid-column: span 2;
+    /* Centrar el 3er KPI en tablets */
+  }
+}
+
+@media (max-width: 768px) {
+
+  /* Sidebar pasa a ser horizontal inferior en móviles o se oculta */
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    z-index: 100;
+  }
+
+  .sidebar-header {
+    padding: 0;
+    border-bottom: none;
+  }
+
+  .sidebar-nav {
+    display: none;
+  }
+
+  .sidebar-footer {
+    display: none;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kpi-card:last-child,
+  .registro-widget,
+  .insignias-widget,
+  .escaneo-widget {
+    grid-column: span 1;
+  }
+
+  /* Puntos de acopio en móvil: Mapa arriba, Lista abajo */
+  .layout-acopio {
+    grid-template-columns: 1fr;
+  }
+
+  .mapa-contenedor {
+    order: -1;
+  }
+}
+
+.btn-hamburguesa {
+  display: none;
+  /* Oculto en escritorio */
+  background: none;
+  border: none;
+  color: var(--blanco);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Estilos del Submenú (Elemento Resolver) */
+details#resolver summary {
+  cursor: pointer;
+  list-style: none;
+  /* Ocultar flecha nativa */
+  outline: none;
+}
+
+.submenu-links {
+  display: flex;
+  flex-direction: column;
+  padding-left: 3.5rem;
+  margin-top: 0.5rem;
+  gap: 0.8rem;
+}
+
+.submenu-links a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.submenu-links a:hover {
+  color: var(--acento);
+}
+
+/* Estilos del Pie de Página */
+.site-footer {
+  margin-top: 3rem;
+  padding: 2rem;
+  background-color: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  text-align: center;
+  color: var(--texto-claro);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.site-footer p {
+  margin-bottom: 0.5rem;
+  font-size: 14px;
+}
+
+.site-footer p:last-child {
+  margin-bottom: 0;
+  font-weight: 600;
+  color: var(--secundario);
+}
+
+/* Lógica CSS del Menú Móvil (600px en base a tu menu.js) */
+@media (max-width: 600px) {
+  .btn-hamburguesa {
+    display: block;
+  }
+
+  .sidebar {
+    flex-direction: column;
+    /* Sobrescribir posible flex-row en móviles */
+    align-items: stretch;
+  }
+
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+  }
+
+  /* Cuando JS ponga el atributo hidden, ocultamos */
+  #navegacion[hidden] {
+    display: none !important;
+  }
+
+  /* Cuando esté visible en móvil */
+  #navegacion {
+    display: flex;
+    /* Mostrar como bloque/flex */
+    width: 100%;
+    background-color: var(--secundario);
+    padding: 0 0 1rem 0;
+  }
+}

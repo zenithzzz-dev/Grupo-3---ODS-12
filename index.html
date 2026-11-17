@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | SCRAPP - Economía Circular</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,800&display=swap" rel="stylesheet">
+  
+  <!-- CSS y JS de Leaflet.js para Mapa Real -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <link rel="stylesheet" href="css/estilos.css">
+  <link rel="icon" type="image/svg+xml" href="iconos/favicon.ico">
+  
+  <!-- Scripts de la aplicación -->
+  <script src="js/impacto.js" defer></script>
+  <script src="js/acopio.js" defer></script>
+  <script src="js/interaccion-spi.js" defer></script>
+  
+  <!-- Script del Menú Hamburguesa -->
+  <script src="js/menu.js" defer></script>
+
+</head>
+<body class="dashboard-body" id="inicio">
+
+  <div class="dashboard-layout">
+    <!-- BARRA LATERAL (SIDEBAR) -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <!-- Logo con clase marca apuntando al inicio -->
+        <a href="#inicio" class="logo marca" style="text-decoration: none; color: inherit;">
+          <span class="logo-icon">♻️</span>
+          <h2>SCRAPP</h2>
+        </a>
+        
+        <!-- Botón del menú hamburguesa -->
+        <button id="boton-menu" aria-expanded="false" aria-label="Abrir menú" class="btn-hamburguesa">
+          ☰ <span id="texto-menu" class="sr-only">Menú</span>
+        </button>
+      </div>
+      
+      <!-- ID navegacion añadido para control por JS -->
+      <nav id="navegacion" class="sidebar-nav">
+        <a href="#inicio-dashboard" class="nav-item activo">
+          <span class="icon">📊</span> Dashboard
+        </a>
+        <a href="#escaneo" class="nav-item">
+          <span class="icon">📷</span> Escáner SPI
+        </a>
+        <a href="#registro" class="nav-item">
+          <span class="icon">➕</span> Registrar depósito
+        </a>
+        <a href="#puntos-acopio" class="nav-item">
+          <span class="icon">📍</span> Puntos de acopio
+        </a>
+        
+        <!-- Submenú desplegable referenciado como #resolver en JS -->
+        <details id="resolver" class="nav-item" style="display: block;">
+          <summary>
+            <span class="icon">⚙️</span> Más opciones ▾
+          </summary>
+          <div class="submenu-links">
+            <a href="#perfil">Mi Perfil</a>
+            <a href="#ayuda">Centro de Ayuda</a>
+          </div>
+        </details>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="perfil-usuario">
+          <div class="avatar">A</div>
+          <div class="info">
+            <strong>Ana Pérez</strong>
+            <span>Ciudadana ODS 12</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+      <header class="topbar" id="inicio-dashboard">
+        <div>
+          <h1 class="titulo-pagina">Mi Impacto Ambiental</h1>
+          <p class="subtitulo">Hola, Ana. Tu esfuerzo hoy construye un mundo más sostenible.</p>
+        </div>
+      </header>
+
+      <div class="dashboard-grid">
+        
+        <!-- KPIs ROW (3 Tarjetas) -->
+        <div class="kpi-card">
+          <span class="kpi-label">PLÁSTICO RECICLADO</span>
+          <div class="kpi-valor"><span id="kpi-total-kg">0.00</span> <span class="unidad">kg</span></div>
+          <p class="kpi-meta">Total acumulado en el sistema</p>
+        </div>
+
+        <div class="kpi-card">
+          <span class="kpi-label">KG DE CO₂ EVITADO</span>
+          <div class="kpi-valor"><span id="kpi-co2">0.00</span> <span class="unidad">kg</span></div>
+          <p class="kpi-meta">Impacto directo en la huella de carbono</p>
+        </div>
+
+        <div class="kpi-card">
+          <span class="kpi-label">ENVASES SALVADOS</span>
+          <div class="kpi-valor"><span id="kpi-envases">0</span> <span class="unidad">unidades</span></div>
+          <p class="kpi-meta">Listos para economía circular</p>
+        </div>
+
+        <!-- Tarjeta de Escáner SPI (HU-001) -->
+        <div class="widget-card escaneo-widget" id="escaneo">
+          <h3>Escáner de Plástico (SPI)</h3>
+          <p style="margin-bottom: 1.5rem; color: #666; font-size: 14px;">Apunta tu cámara al símbolo de reciclaje para saber cómo desecharlo.</p>
+        
+          <div id="area-camara" class="area-camara">
+            <p style="margin: 0;">Vista de cámara</p>
+          </div>
+        
+          <button id="btn-escanear" type="button" class="boton-primario btn-ambar">
+            Escanear Código
+          </button>
+        
+          <div id="resultado-escaneo" class="resultado-escaneo" style="display: none;">
+            <h4>Resultado del Escaneo</h4>
+            <p id="texto-tipo-plastico"></p>
+            <p id="texto-contenedor"></p>
+          </div>
+        </div>
+
+        <!-- Tarjeta de Registro -->
+        <div class="widget-card registro-widget" id="registro">
+          <h3>Registrar nuevo depósito</h3>
+          <p style="margin-bottom: 1.5rem; color: #666; font-size: 14px;">Ingresa la cantidad de plástico entregada en el punto de acopio.</p>
+          
+          <div class="formulario-registro">
+            <div class="grupo-input">
+              <label for="input-peso">Peso aproximado (kg)</label>
+              <input type="number" id="input-peso" min="0.1" step="0.1" placeholder="Ej. 2.5">
+            </div>
+            
+            <button id="btn-confirmar" type="button" class="boton-primario">Registrar reciclaje</button>
+          </div>
+        </div>
+
+        <!-- Tarjeta de Insignias -->
+        <div class="widget-card insignias-widget">
+          <h3>Próximas insignias</h3>
+          <p style="margin-bottom: 1.5rem; color: #666; font-size: 14px;">Tus reconocimientos por alcanzar hitos del ODS 12.</p>
+          
+          <div class="lista-insignias">
+            <div class="insignia-item progreso">
+              <div class="icono-insignia gris">🌱</div>
+              <div class="info-insignia">
+                <h4>Héroe del Reciclaje (5 kg)</h4>
+                <span>Desbloquea al llegar a 5 kg.</span>
+              </div>
+            </div>
+            <div class="insignia-item progreso">
+              <div class="icono-insignia gris">♻️</div>
+              <div class="info-insignia">
+                <h4>Campeón ODS 12 (20 kg)</h4>
+                <span>Desbloquea al llegar a 20 kg.</span>
+              </div>
+            </div>
+          </div>
+
+          <h4 style="margin-top: 1.5rem; border-top: 1px solid var(--borde); padding-top: 1rem; color: var(--secundario);">Tus insignias obtenidas:</h4>
+          <div id="contenedor-insignias" class="contenedor-insignias-logradas">
+            <p id="sin-insignias" style="margin: 0; font-size: 14px; color: #888;">Aún no tienes insignias.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN: PUNTOS DE ACOPIO -->
+      <section id="puntos-acopio" class="widget-card" style="margin-top: 1.5rem;">
+        <div class="encabezado-puntos">
+          <span class="kpi-label" style="margin-bottom: 0.5rem; display: block;">ReciclaSPI · Ubicación en Vivo</span>
+          <h3 style="font-size: 20px;">Puntos de acopio en Lima</h3>
+          <p style="color: #666; font-size: 14px; margin-bottom: 1.5rem;">Filtra por código de plástico SPI (1-5) para ubicar los centros de reciclaje activos.</p>
+        </div>
+
+        <div class="filtros-spi" role="group" aria-label="Filtrar por tipo de plástico SPI">
+          <button type="button" class="chip-spi activo" data-spi="todos">Todos</button>
+          <button type="button" class="chip-spi" data-spi="1">1 PET</button>
+          <button type="button" class="chip-spi" data-spi="2">2 HDPE</button>
+          <button type="button" class="chip-spi" data-spi="3">3 PVC</button>
+          <button type="button" class="chip-spi" data-spi="4">4 LDPE</button>
+          <button type="button" class="chip-spi" data-spi="5">5 PP</button>
+        </div>
+
+        <div class="layout-acopio">
+          <div id="lista-puntos" class="lista-puntos">
+            <!-- Generado dinámicamente mediante JS -->
+          </div>
+
+          <div class="mapa-contenedor">
+            <div id="mapa-real" style="width: 100%; height: 420px; z-index: 1;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PIE DE PÁGINA (NUEVO) -->
+      <footer class="site-footer">
+        <div class="footer-content">
+          <p>&copy; 2026 SCRAPP - Economía Circular. Todos los derechos reservados.</p>
+          <p>Comprometidos con el ODS 12: Producción y Consumos Responsables.</p>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+</body>
+</html>
